@@ -1,0 +1,16 @@
+{
+    "name": "vapi-inbound-call",
+    "version": "1.0.0",
+    "type": "module",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "nerudev deploy",
+        "debug": "nerudev debug"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "neru-alpha": "^0.3.0"
+    }
+}
