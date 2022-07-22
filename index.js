@@ -1,5 +1,8 @@
 import { Voice, neru } from 'neru-alpha';
-const router = neru.Router();
+import express from 'express';
+
+const app = express();
+const port = process.env.NERU_APP_PORT;
 
 const init = async () => {
     const session = neru.createSession();
@@ -9,11 +12,17 @@ const init = async () => {
 
 init();
 
-router.post('/onCall', async (req, res) => {
+app.use(express.json());
+
+app.get('/_/health', async (req, res) => {
+    res.sendStatus(200);
+});
+
+app.post('/onCall', async (req, res) => {
     const session = neru.createSession();
     const voice = new Voice(session);
 
-    voice.onVapiEvent(req.body.uuid, 'onEvent').execute();
+    voice.onVapiEvent({ vapiUUID: req.body.uuid, callback: 'onEvent'}).execute();
 
     const ncco = [
         {
@@ -24,11 +33,13 @@ router.post('/onCall', async (req, res) => {
     res.json(ncco);
 });
 
-router.post('/onEvent', async (req, res) => {
+app.post('/onEvent', async (req, res) => {
     console.log('event status is: ', req.body.status);
     console.log('event direction is: ', req.body.direction);
 
     res.sendStatus(200);
 });
 
-export { router };
+app.listen(port, () => {
+    console.log(`App listening on port ${port}`)
+});

@@ -16,7 +16,7 @@ Create a Vonage Application if you do not have one already, and [link a phone nu
 neru app create --name "neru application"  
 ```
 
-Then initialize NeRu, choosing the `node.js` for runtime and `skip` for the template:
+Then initialize NeRu, choosing the `nodejs16` for runtime and `skip` for the template:
 
 ```sh
 neru init
@@ -29,9 +29,15 @@ project:
     name: $YOUR_PROJECT_NAME
 instance:
     name: dev
-    runtime: nodejs
+    runtime: nodejs16
     region: aws.euw1
     application-id: $YOUR_VONAGE_APPLICATION_ID
+    entrypoint: [node, index.js]
+    capabilities:
+        - voice
+debug:
+    name: debug
+    entrypoint: [nodemon, --inspect, index.js]
 ```
 
 Then start the project locally using:
